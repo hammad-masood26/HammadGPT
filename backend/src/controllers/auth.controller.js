@@ -43,7 +43,9 @@ export async function login(req, res) {
     const token = signJwt(user.id);
     return res.status(200).json({ token, user: { id: user.id, email: user.email } });
   } catch (error) {
-    return res.status(500).json({ error: 'Failed to login' });
+    console.error("LOGIN ERROR:", error);
+    return res.status(500).json({ error: error.message });
+
   }
 }
 
