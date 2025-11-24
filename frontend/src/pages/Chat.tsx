@@ -176,7 +176,7 @@ export default function Chat() {
   };
 
   return (
-    <div className="min-h-screen flex bg-gradient-to-b from-white to-gray-100 text-gray-900">
+    <div className="min-h-screen flex bg-gradient-to-b from-white to-gray-100 text-gray-900 flex-col">
       {/* Sidebar */}
       <Sidebar
         onSelect={loadConversation}
@@ -190,7 +190,7 @@ export default function Chat() {
       {/* Main Chat */}
       <div className="flex-1 flex flex-col relative">
         {/* Header */}
-        <header className="sticky top-0 z-20 px-6 py-3 bg-gray-100 border-b border-gray-200 flex justify-between items-center">
+        <header className="sticky top-0 z-20 px-4 py-3 bg-gray-100 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-3">
           <div className="flex items-center gap-3">
             {!isSidebarOpen && (
               <button
@@ -203,11 +203,11 @@ export default function Chat() {
             <h1 className="text-xl font-semibold text-gray-800">HammadGPT</h1>
           </div>
 
-          <div className="flex items-center gap-3">
-            <span className="text-gray-700 text-sm">{user?.email}</span>
+          <div className="flex items-center gap-3 flex-wrap">
+            <span className="text-gray-700 text-sm truncate max-w-[180px]">{user?.email}</span>
             <button
               onClick={newChat}
-              className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-sm"
+              className="px-3 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-sm"
             >
               New Chat
             </button>
@@ -217,7 +217,7 @@ export default function Chat() {
                 localStorage.removeItem("user");
                 localStorage.removeItem("conversationId");
               }}
-              className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm font-medium transition"
+              className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm font-medium transition"
             >
               Sign out
             </button>
@@ -226,7 +226,7 @@ export default function Chat() {
 
         {/* Chat Messages */}
         <main className="flex-1 overflow-y-auto px-4 md:px-6 py-6 bg-gray-50">
-          <div className="space-y-6 max-w-3xl mx-auto">
+          <div className="space-y-6 max-w-3xl mx-auto px-2">
             {messages.length === 0 && !conversationId ? (
               <div className="flex flex-col items-center justify-center h-[70vh] text-center">
                 <h2 className="text-4xl font-semibold text-gray-700 mb-3">
@@ -251,7 +251,7 @@ export default function Chat() {
                     {m.role === 'user' ? userInitial : 'AI'}
                   </div>
 
-                  <div className={`max-w-[75%] ${m.role === 'user' ? 'order-1 text-right' : 'order-2 text-left'}`}>
+                  <div className={`max-w-[90%] sm:max-w-[75%] ${m.role === 'user' ? 'order-1 text-right' : 'order-2 text-left'}`}>
                     <div className={`p-4 rounded-2xl shadow-sm border transition-all ${
                       m.role === "user"
                         ? "bg-blue-100 border-blue-200 text-gray-900"
@@ -299,8 +299,8 @@ export default function Chat() {
 
         {/* Input */}
         <footer className="sticky bottom-0 p-4 bg-gray-100 border-t border-gray-200">
-          <form onSubmit={onSubmit} className="max-w-3xl mx-auto flex items-center gap-3">
-            <div className="flex-1 flex items-center bg-white border border-gray-300 rounded-xl px-4 py-3">
+          <form onSubmit={onSubmit} className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-3 px-2">
+            <div className="flex-1 flex items-center bg-white border border-gray-300 rounded-xl px-3 py-2 w-full">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -325,7 +325,7 @@ export default function Chat() {
                     setIsGenerating(false);
                     setTyping(false);
                   }}
-                  className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition"
+                  className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition w-full sm:w-auto mt-2 sm:mt-0"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                     <rect x="6" y="6" width="8" height="8" />
@@ -335,7 +335,7 @@ export default function Chat() {
                 <button
                   type="submit"
                   disabled={typing || !input.trim()}
-                  className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 flex items-center justify-center"
+                  className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 flex items-center justify-center w-full sm:w-auto mt-2 sm:mt-0"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M8 5v10l8-5-8-5z" />
