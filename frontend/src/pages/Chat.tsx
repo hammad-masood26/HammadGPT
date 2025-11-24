@@ -14,7 +14,6 @@ export default function Chat() {
   const [typing, setTyping] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [showHeaderMenu, setShowHeaderMenu] = useState(false);
   // stopGeneration state previously used for UI; replaced by stopRef for runtime checks
   const stopRef = useRef(false);
   const endRef = useRef<HTMLDivElement>(null);
@@ -191,7 +190,7 @@ export default function Chat() {
       {/* Main Chat */}
       <div className="flex-1 flex flex-col relative">
         {/* Header */}
-        <header className="relative sticky top-0 z-20 px-4 py-3 bg-gray-100 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-3">
+        <header className="sticky top-0 z-20 px-4 py-3 bg-gray-100 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-3">
           <div className="flex items-center gap-3">
             {!isSidebarOpen && (
               <button
@@ -205,10 +204,10 @@ export default function Chat() {
           </div>
 
           <div className="flex items-center gap-3 flex-wrap">
-            <span className="text-gray-700 text-sm truncate max-w-[180px] hidden sm:inline-block">{user?.email}</span>
+            <span className="text-gray-700 text-sm truncate max-w-[180px]">{user?.email}</span>
             <button
               onClick={newChat}
-              className="px-3 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-sm hidden sm:inline-block"
+              className="px-3 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-sm"
             >
               New Chat
             </button>
@@ -218,47 +217,10 @@ export default function Chat() {
                 localStorage.removeItem("user");
                 localStorage.removeItem("conversationId");
               }}
-              className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm font-medium transition hidden sm:inline-block"
+              className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm font-medium transition"
             >
               Sign out
             </button>
-
-            {/* Mobile header menu */}
-            <button
-              onClick={() => setShowHeaderMenu((s) => !s)}
-              className="sm:hidden px-3 py-2 bg-gray-200 rounded-md"
-              aria-label="Open menu"
-            >
-              ⋮
-            </button>
-
-            {showHeaderMenu && (
-              <div className="absolute right-4 top-full mt-2 bg-white border rounded-md shadow-md z-50 w-44 p-2">
-                <div className="flex flex-col gap-2">
-                  <div className="text-sm text-gray-700 truncate">{user?.email}</div>
-                  <button
-                    onClick={() => {
-                      newChat();
-                      setShowHeaderMenu(false);
-                    }}
-                    className="w-full text-left px-2 py-2 rounded hover:bg-gray-100"
-                  >
-                    New Chat
-                  </button>
-                  <button
-                    onClick={() => {
-                      logout();
-                      localStorage.removeItem("user");
-                      localStorage.removeItem("conversationId");
-                      setShowHeaderMenu(false);
-                    }}
-                    className="w-full text-left px-2 py-2 rounded text-red-600 hover:bg-gray-100"
-                  >
-                    Sign out
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         </header>
 
