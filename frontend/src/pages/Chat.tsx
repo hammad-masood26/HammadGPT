@@ -110,7 +110,7 @@ export default function Chat() {
         localStorage.setItem("conversationId", data.conversationId);
       }
 
-  if (data.conversation?.messages && !stopRef.current) {
+      if (data.conversation?.messages && !stopRef.current) {
         const allMsgs = data.conversation.messages;
         const lastMsg = allMsgs[allMsgs.length - 1];
 
@@ -121,6 +121,7 @@ export default function Chat() {
           const chunkSize = 3; // Characters to add per frame
           let index = 0;
 
+          // Set all messages with empty assistant message to start animation
           setMessages([...allMsgs.slice(0, -1), { role: "assistant", content: "" }]);
 
           const animate = () => {
@@ -190,24 +191,24 @@ export default function Chat() {
       {/* Main Chat */}
       <div className="flex-1 flex flex-col relative">
         {/* Header */}
-        <header className="sticky top-0 z-20 px-4 py-3 bg-gray-100 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <div className="flex items-center gap-3">
+        <header className="sticky top-0 z-20 px-3 sm:px-4 py-2 sm:py-3 bg-gray-100 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             {!isSidebarOpen && (
               <button
                 onClick={() => setIsSidebarOpen(true)}
-                className="bg-gray-200 text-gray-800 px-3 py-2 rounded-md hover:bg-gray-300 transition"
+                className="bg-gray-200 text-gray-800 px-2 sm:px-3 py-1.5 sm:py-2 rounded-md hover:bg-gray-300 transition text-sm"
               >
                 ☰
               </button>
             )}
-            <h1 className="text-xl font-semibold text-gray-800">HammadGPT</h1>
+            <h1 className="text-lg sm:text-xl font-semibold text-gray-800">HammadGPT</h1>
           </div>
 
-          <div className="flex items-center gap-3 flex-wrap">
-            <span className="text-gray-700 text-sm truncate max-w-[180px]">{user?.email}</span>
+          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+            <span className="text-gray-700 text-xs sm:text-sm truncate max-w-[120px] sm:max-w-[180px]">{user?.email}</span>
             <button
               onClick={newChat}
-              className="px-3 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-sm"
+              className="px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-200 hover:bg-gray-300 rounded-lg text-xs sm:text-sm"
             >
               New Chat
             </button>
@@ -217,7 +218,7 @@ export default function Chat() {
                 localStorage.removeItem("user");
                 localStorage.removeItem("conversationId");
               }}
-              className="px-3 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-sm font-medium transition"
+              className="px-2 sm:px-3 py-1.5 sm:py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg text-xs sm:text-sm font-medium transition"
             >
               Sign out
             </button>
@@ -225,14 +226,14 @@ export default function Chat() {
         </header>
 
         {/* Chat Messages */}
-        <main className="flex-1 overflow-y-auto px-4 md:px-6 py-6 bg-gray-50">
-          <div className="space-y-6 max-w-3xl mx-auto px-2">
+        <main className="flex-1 overflow-y-auto px-3 sm:px-4 md:px-6 py-4 sm:py-6 bg-gray-50">
+          <div className="space-y-3 sm:space-y-6 max-w-3xl mx-auto px-2">
             {messages.length === 0 && !conversationId ? (
               <div className="flex flex-col items-center justify-center h-[70vh] text-center">
-                <h2 className="text-4xl font-semibold text-gray-700 mb-3">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold text-gray-700 mb-3">
                   👋 Welcome {user?.email?.split("@")[0] || "there"}!
                 </h2>
-                <p className="text-gray-500 text-lg">
+                <p className="text-sm sm:text-base md:text-lg text-gray-500">
                   Start a new conversation by asking anything below.
                 </p>
               </div>
@@ -252,24 +253,24 @@ export default function Chat() {
                   </div>
 
                   <div className={`max-w-[90%] sm:max-w-[75%] ${m.role === 'user' ? 'order-1 text-right' : 'order-2 text-left'}`}>
-                    <div className={`p-4 rounded-2xl shadow-sm border transition-all ${
+                    <div className={`p-3 sm:p-4 rounded-2xl shadow-sm border transition-all ${
                       m.role === "user"
                         ? "bg-blue-100 border-blue-200 text-gray-900"
                         : "bg-gradient-to-r from-blue-700 to-blue-600 border-blue-700 text-white"
                     }`}> 
-                      <div className="prose max-w-none break-words whitespace-pre-wrap">
+                      <div className="prose max-w-none break-words whitespace-pre-wrap text-xs sm:text-sm md:text-base">
                         <ReactMarkdown>{m.content}</ReactMarkdown>
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between mt-1 text-xs text-gray-400">
-                      <div>
+                      <div className="text-xs">
                         {m.createdAt ? new Date(m.createdAt).toLocaleString() : null}
                       </div>
                       {m.role === 'assistant' && (
                         <button
                           onClick={() => navigator.clipboard.writeText(m.content)}
-                          className="ml-2 text-gray-300 hover:text-white text-sm px-2 py-1 rounded-sm"
+                          className="ml-2 text-gray-300 hover:text-white text-xs px-2 py-1 rounded-sm"
                           title="Copy response"
                         >
                           Copy
@@ -298,14 +299,14 @@ export default function Chat() {
         </main>
 
         {/* Input */}
-        <footer className="sticky bottom-0 p-4 bg-gray-100 border-t border-gray-200">
-          <form onSubmit={onSubmit} className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-3 px-2">
-            <div className="flex-1 flex items-center bg-white border border-gray-300 rounded-xl px-3 py-2 w-full">
+        <footer className="sticky bottom-0 p-2 sm:p-3 md:p-4 bg-gray-100 border-t border-gray-200">
+          <form onSubmit={onSubmit} className="max-w-3xl mx-auto flex flex-col sm:flex-row items-center gap-2 sm:gap-3 px-2">
+            <div className="flex-1 flex items-center bg-white border border-gray-300 rounded-xl px-2 sm:px-3 py-1.5 sm:py-2 w-full">
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask anything..."
-                className="flex-1 bg-transparent text-gray-900 placeholder-gray-500 focus:outline-none"
+                className="flex-1 bg-transparent text-gray-900 placeholder-gray-500 focus:outline-none text-sm sm:text-base"
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
@@ -325,9 +326,9 @@ export default function Chat() {
                     setIsGenerating(false);
                     setTyping(false);
                   }}
-                  className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition w-full sm:w-auto mt-2 sm:mt-0"
+                  className="bg-red-500 text-white p-1.5 sm:p-2 rounded-lg hover:bg-red-600 transition w-full sm:w-auto mt-2 sm:mt-0"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 sm:h-6 w-5 sm:w-6" viewBox="0 0 20 20" fill="currentColor">
                     <rect x="6" y="6" width="8" height="8" />
                   </svg>
                 </button>
@@ -335,9 +336,9 @@ export default function Chat() {
                 <button
                   type="submit"
                   disabled={typing || !input.trim()}
-                  className="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 flex items-center justify-center w-full sm:w-auto mt-2 sm:mt-0"
+                  className="bg-blue-600 text-white p-1.5 sm:p-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 flex items-center justify-center w-full sm:w-auto mt-2 sm:mt-0"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 sm:h-6 w-5 sm:w-6" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M8 5v10l8-5-8-5z" />
                   </svg>
                 </button>

@@ -27,24 +27,24 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-gray-100 px-4 text-gray-900">
-      <div className="w-full max-w-md bg-white/90 backdrop-blur-lg rounded-2xl shadow-xl p-8 border border-gray-200">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-white to-gray-100 px-4 py-8 text-gray-900">
+      <div className="w-full max-w-md bg-white/90 backdrop-blur-lg rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200">
         {/* Title */}
-        <h1 className="text-3xl font-bold text-center mb-2 text-gray-800">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center mb-2 text-gray-800">
           Welcome <span className="text-blue-600">Back!</span>
         </h1>
-        <p className="text-gray-600 text-center mb-6">
+        <p className="text-sm sm:text-base text-gray-600 text-center mb-6">
           Sign in to continue your AI conversations
         </p>
 
         {/* Form */}
-        <form onSubmit={onSubmit} className="space-y-4">
+        <form onSubmit={onSubmit} className="space-y-3 sm:space-y-4">
           <input
             type="email"
             placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg bg-gray-50 text-gray-900 border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-full px-4 py-2.5 sm:py-3 rounded-lg bg-gray-50 text-sm sm:text-base text-gray-900 border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
             required
           />
           <input
@@ -52,25 +52,25 @@ export default function Login() {
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg bg-gray-50 text-gray-900 border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
+            className="w-full px-4 py-2.5 sm:py-3 rounded-lg bg-gray-50 text-sm sm:text-base text-gray-900 border border-gray-300 focus:ring-2 focus:ring-blue-500 outline-none"
             required
           />
 
           {error && (
-            <div className="text-red-500 text-sm text-center">{error}</div>
+            <div className="text-red-500 text-xs sm:text-sm text-center">{error}</div>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold transition duration-300 shadow-md"
+            className="w-full py-2.5 sm:py-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm sm:text-base font-semibold transition duration-300 shadow-md"
           >
             {loading ? "Signing in…" : "Sign In"}
           </button>
         </form>
 
         {/* Footer */}
-        <p className="text-gray-600 text-sm text-center mt-6">
+        <p className="text-xs sm:text-sm text-gray-600 text-center mt-6">
           Don’t have an account?{" "}
           <Link to="/signup" className="text-blue-600 hover:underline font-medium">
             Create one
@@ -79,11 +79,11 @@ export default function Login() {
 
         <div className="text-center text-xs text-gray-500 mt-4">
           <Link to="/terms" className="hover:underline">
-            Terms of Service
+            {/* Terms of Service */}
           </Link>{" "}
           ·{" "}
           <Link to="/privacy" className="hover:underline">
-            Privacy Policy
+            {/* Privacy Policy */}
           </Link>
         </div>
       </div>

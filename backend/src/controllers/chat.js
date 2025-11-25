@@ -36,8 +36,10 @@ export const ask = async (req, res) => {
       content: message
     });
 
-    // Send the complete conversation history
-    const aiResponse = await generateAssistantReply(message, conversation.messages);
+    // Send conversation history (without the current message) to AI for context
+    // The current message will be sent separately to generateAssistantReply
+    const historyForAI = conversation.messages.slice(0, -1);
+    const aiResponse = await generateAssistantReply(message, historyForAI);
 
     // Add assistant reply
     conversation.messages.push({
